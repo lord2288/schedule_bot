@@ -1,9 +1,9 @@
 import app.pars_exel as pars_exel
 import app.keybords as kb
 
-from aiogram import F, Router
+from aiogram import F, Router, Bot
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, FSInputFile
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 
@@ -52,7 +52,7 @@ async def first_second(message: Message, state: FSMContext):
     await state.clear()
 
 @router.message(F.text.startswith('На '))
-async def first_second(message: Message, state: FSMContext):
+async def first_second(message: Message):
     if message.text.split('  ')[0] == 'На сегодня':
         messag = ''
         name = pars_exel.the_schedule_for_today(message.text, pars_exel.kours(message.text))
@@ -74,5 +74,13 @@ async def first_second(message: Message, state: FSMContext):
             await message.answer(messag)
         else:
             await message.answer(name[0])
-    elif message.text.split('  ')[0] == 'На неделю':
-        print(3)
+
+@router.message(F.text == 'Назад')
+async def first_second(message: Message):
+    await message.answer(f'Здравтсвуйте {message.chat.username}', reply_markup=kb.main)
+
+@router.message(F.text == 'О Авторе')
+async def first_second(message: Message, bot:Bot):
+    photo = FSInputFile(path='photo_2024-01-17_12-10-48.jpg')
+    await bot.send_photo(message.chat.id, photo=photo)
+    await message.answer(text=pars_exel.text)

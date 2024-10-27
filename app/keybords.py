@@ -8,7 +8,7 @@ DAYS = ['На сегодня', 'На завтра']
 
 main = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Начать')],
-     [KeyboardButton(text='О Авторе')]
+     [KeyboardButton(text='О авторе')]
 ])
 
 
@@ -47,7 +47,8 @@ def num_group(year: str, group: str) -> ReplyKeyboardMarkup:
 
 def day_button(group: str) -> ReplyKeyboardMarkup:
     button_markup = ReplyKeyboardMarkup(keyboard=[
-        [KeyboardButton(text=f'{DAYS[0]}  {group}'), KeyboardButton(text=f'{DAYS[1]}  {group}')]
+        [KeyboardButton(text=f'{DAYS[0]}  {group}'), KeyboardButton(text=f'{DAYS[1]}  {group}')],
+        [KeyboardButton(text='Назад')]
 
     ])
     return button_markup

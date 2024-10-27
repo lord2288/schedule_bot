@@ -9,6 +9,14 @@ file = openpyxl.load_workbook('Расписание.xlsx')
 
 KURSES = file.sheetnames
 
+text = '''
+Автор: Павлов Даниил
+Учебное заведение: Финансовый колледж №35
+Курс: 2-й курс, ИСИП-28Б
+Специальность: it
+Интересы: Программирование'''
+
+
 def is_even_week():
     week = date.today()
     week_number = week.isocalendar()[1]
@@ -293,6 +301,8 @@ def Tomorrows_schedule(message: str, year:str)->list:
                         class_Room.append(
                             sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
                             sheet[column - 1][faculty + 1].value)
+                        num_lesson.append(
+                            sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][3].value)
                 else:
                     if sheet[column][2].value == 'ч' or sheet[column][2].value == None:
                         if any(sheet[column][faculty].coordinate in merged_range for merged_range in
@@ -303,6 +313,9 @@ def Tomorrows_schedule(message: str, year:str)->list:
                             class_Room.append(
                                 sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
                                 sheet[column - 1][faculty + 1].value)
+                            num_lesson.append(
+                                sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][
+                                    3].value)
                         else:
                             schedule.append(sheet[column][faculty].value)
                             time.append(sheet[column][1].value if sheet[column][1].value != None else sheet[column - 1][
@@ -310,9 +323,11 @@ def Tomorrows_schedule(message: str, year:str)->list:
                             class_Room.append(
                                 sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
                                 sheet[column - 1][faculty + 1].value)
+                            num_lesson.append(
+                                sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][
+                                    3].value)
         else:
             return ['Сегодня нет занятий']
-
     for i in range(len(schedule)):
         if schedule[i] != None:
             end_schedule.append((re.sub(r'\s+', ' ', schedule[i])))
