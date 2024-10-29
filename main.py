@@ -15,10 +15,6 @@ logging.basicConfig(level=logging.DEBUG,
 bot = Bot(token=api)
 dp = Dispatcher()
 
-logging.info('info')
-logging.warning('warning')
-logging.error('error')
-
 async def main():
     dp.include_router(router)
     await dp.start_polling(bot)
