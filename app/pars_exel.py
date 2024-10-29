@@ -118,8 +118,12 @@ def the_schedule_for_today(message: str, year:str)->list:
     sheet = file[year]
     min_num1 = [9, 26, 45, 64, 83, 102]
     max_num1 = [23, 42, 61, 80, 99, 118]
+
     min_num2 = [8, 25, 47, 73, 94]
     max_num2 = [23, 46, 71, 90, 105]
+
+    min_num3 = [7, 26, 41, 56, 73]
+    max_num3 = [23, 38, 53, 70, 87]
     schedule = []
     num_lesson = []
     end_schedule = []
@@ -132,7 +136,7 @@ def the_schedule_for_today(message: str, year:str)->list:
     date = datetime.now()
     num_day = date.weekday()
 
-    if year != '1 курс':
+    if year == '2 курс':
         if num_day != 5 and num_day != 6:
             for column in range(min_num2[num_day], max_num2[num_day] - 1):
                 if int(date.strftime("%U")) % 2 != 0:
@@ -169,6 +173,58 @@ def the_schedule_for_today(message: str, year:str)->list:
                                 sheet[column - 1][faculty + 1].value)
         else:
             return ['Сегодня нет занятий']
+
+    elif year == '3, 4 курс':
+        if num_day != 5 and num_day != 6:
+            for column in range(min_num3[num_day], max_num3[num_day] - 1):
+                if int(date.strftime("%U")) % 2 != 0:
+                    if sheet[column][2].value == None or sheet[column][2].value == 'н/ч':
+
+                        schedule.append(sheet[column][faculty].value)
+
+                        time.append(
+                            sheet[column][1].value if sheet[column][1].value != None else sheet[column - 1][1].value)
+
+                        class_Room.append(
+                            sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
+                            sheet[column - 1][faculty + 1].value)
+
+
+                        num_lesson.append(
+                            sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][3].value)
+                else:
+                    if sheet[column][2].value == 'ч' or sheet[column][2].value == None:
+                        if any(sheet[column][faculty].coordinate in merged_range for merged_range in
+                               sheet.merged_cells.ranges):
+
+                            schedule.append(sheet[column - 1][faculty].value)
+
+                            time.append(
+                                sheet[column][1].value if sheet[column][1].value != None else sheet[column - 1][1].value)
+
+                            class_Room.append(
+                                sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
+                                sheet[column - 1][faculty + 1].value)
+
+                            num_lesson.append(
+                                sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][3].value)
+
+                        else:
+                            schedule.append(sheet[column][faculty].value)
+
+                            time.append(
+                                sheet[column][1].value if sheet[column][1].value != None else sheet[column - 1][1].value)
+
+                            class_Room.append(
+                                sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
+                                sheet[column - 1][faculty + 1].value)
+
+                            num_lesson.append(
+                                sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][3].value)
+
+        else:
+            return ['Сегодня нет занятий']
+
     elif year == '1 курс':
         if num_day != 6:
             for column in range(min_num1[num_day], max_num1[num_day]):
@@ -219,8 +275,12 @@ def Tomorrows_schedule(message: str, year:str)->list:
     sheet = file[year]
     min_num1 = [9, 26, 45, 64, 83, 102]
     max_num1 = [23, 42, 61, 80, 99, 118]
+
     min_num2 = [8, 25, 47, 73, 94]
     max_num2 = [23, 46, 71, 90, 105]
+
+    min_num3 = [7, 26, 41, 56, 73]
+    max_num3 = [23, 38, 53, 70, 87]
     schedule = []
     time = []
     class_Room = []
@@ -240,7 +300,7 @@ def Tomorrows_schedule(message: str, year:str)->list:
         weekday += 1
         num_day = 0
 
-    if year != '1 курс':
+    if year == '2 курс':
         if num_day != 5 and num_day != 6:
             for column in range(min_num2[num_day], max_num2[num_day] - 1):
                 if weekday % 2 != 0:
@@ -290,6 +350,57 @@ def Tomorrows_schedule(message: str, year:str)->list:
 
         else:
             return ['Сегодня нет занятий']
+    elif year == '3, 4 курс':
+        if num_day != 5 and num_day != 6:
+            for column in range(min_num3[num_day], max_num3[num_day] - 1):
+                if weekday % 2 != 0:
+                    if sheet[column][2].value == None or sheet[column][2].value == 'н/ч':
+
+                        schedule.append(sheet[column][faculty].value)
+
+                        time.append(
+                            sheet[column][1].value if sheet[column][1].value != None else sheet[column - 1][1].value)
+
+                        class_Room.append(
+                            sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
+                            sheet[column - 1][faculty + 1].value)
+
+
+                        num_lesson.append(
+                            sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][3].value)
+                else:
+                    if sheet[column][2].value == 'ч' or sheet[column][2].value == None:
+                        if any(sheet[column][faculty].coordinate in merged_range for merged_range in
+                               sheet.merged_cells.ranges):
+
+                            schedule.append(sheet[column - 1][faculty].value)
+
+                            time.append(
+                                sheet[column][1].value if sheet[column][1].value != None else sheet[column - 1][1].value)
+
+                            class_Room.append(
+                                sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
+                                sheet[column - 1][faculty + 1].value)
+
+                            num_lesson.append(
+                                sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][3].value)
+
+                        else:
+                            schedule.append(sheet[column][faculty].value)
+
+                            time.append(
+                                sheet[column][1].value if sheet[column][1].value != None else sheet[column - 1][1].value)
+
+                            class_Room.append(
+                                sheet[column][faculty + 1].value if sheet[column][faculty + 1].value != None else
+                                sheet[column - 1][faculty + 1].value)
+
+                            num_lesson.append(
+                                sheet[column][3].value if sheet[column][3].value != None else sheet[column - 1][3].value)
+
+        else:
+            return ['Сегодня нет занятий']
+
     elif year == '1 курс':
         if num_day != 6:
             for column in range(min_num1[num_day], max_num1[num_day]):
